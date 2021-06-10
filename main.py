@@ -1,15 +1,17 @@
 import os
 import shutil
-import chardet
 import textract
 import subprocess
-from detext import Doc, ContractDoc
+from detext import Doc
+import tkinter as tk
+import yaml
 
-# определитель юникода (походу не всегда верно)
-def unicode_detect(path_to_file):
-    file = open(path_to_file, "rb").read()
-    result = chardet.detect(file)
-    print(result['encoding'])
+
+# читает yaml. возвращает словарь/список
+def read_yaml():
+    with open('data.yaml') as f:
+        dataset = yaml.safe_load(f)
+        return dataset
 
 
 # возращает текст файла MS Office
@@ -29,31 +31,29 @@ def make_folder(source_dir, name):
 
 # сортирует файлы MS Office по папкам по критерию "Предмет"
 def sort_docs(source_dir, output_dir):
-
     # создание папок
-    # по предмету документа
-    for subject in Doc.subjects:
-        make_folder(output_dir, subject)
-    # по предмету контракта
-    for subject in ContractDoc.subjects:
-        make_folder(output_dir+"/Contract", subject)
+    dataset = read_yaml()
+    for type in dataset:
+        type_name = dataset[type]["name"]
+        make_folder(output_dir, type_name)
+        if "subtypes" in dataset[type]:
+            for subtype in dataset[type]["subtypes"]:
+                subtype_name = type_name + "/" + dataset[type]["subtypes"][subtype]["name"]
+                make_folder(output_dir, subtype_name)
+            make_folder(output_dir + "/" + type_name, "Other")
+    make_folder(output_dir, "Other")
+
     # буфер для конвертированных файлов
     tempStorage = make_folder(output_dir, "tempStorage")
     # для файлов с неподдерживаемым конвертером расширением
     FailedToRead = make_folder(output_dir, "FailedToRead")
 
+
     # определяет предмет и сортирует в соотв папки
     def sort(content, item_name):
         document = Doc(content)
         subject_name = document.subject()
-        if subject_name == "Contract":
-            document = ContractDoc(content)
-            subject_name = document.subject()
-            shutil.move(item_path, os.path.join(output_dir + "/Contract/" + subject_name, item_name))
-        elif subject_name == "Letter":
-            shutil.move(item_path, os.path.join(output_dir + "/" + subject_name, item_name))
-        else:
-            shutil.move(item_path, os.path.join(output_dir + "/" + subject_name, item_name))
+        shutil.move(item_path, os.path.join(output_dir + "/" + subject_name, item_name))
 
     # итерация по каждому файлу в source_dir и сортировка
     dir_items = os.listdir(source_dir)
@@ -62,6 +62,7 @@ def sort_docs(source_dir, output_dir):
         if os.path.isdir(item_path):
             continue
 
+        # !!! возможно стоить добавить расширения
         # .doc/.docm файл конвертируется и перемещается в отдельную временную папку
         if item.endswith(".doc"):
             subprocess.call(
@@ -102,8 +103,41 @@ def sort_docs(source_dir, output_dir):
         os.rmdir(tempStorage)
 
 
-sort_docs("/Users/stanislavmakov/Desktop/SortingMachine", "/Users/stanislavmakov/Desktop/SortingMachine/Sorted")
+# GUI
+window = tk.Tk()
+window.title('SlyWorker')
+window.attributes("-alpha", 0.97)
+window.configure(bg='#043353')
+window.geometry("520x430")
+# ширина столбцов
+window.columnconfigure([0, 2], weight=1, minsize=45)
 
 
+def sort_btn_fn():
+    sort_docs(entry1.get(), entry2.get())
 
 
+# надписи
+lbl_source = tk.Label(text="""Адрес папки с документами для сортировки""", height=3, width=38,
+                      bg="#043353", fg="#e3dfd1", font=("Montserrat", 18), anchor="w")
+lbl_source.grid(row=0, column=1, sticky="nsew")
+lbl_output = tk.Label(text="В какую папку сохранить результат?", height=3, width=38, bg="#043353", fg="#e3dfd1",
+                      font=("Montserrat", 18), anchor="w")
+lbl_output.grid(row=2, column=1, sticky="nsew")
+# lbl_app_name = tk.Label(text="Blue", width=40, bg="#043353", fg="#e3dfd1", font=("Montserrat", 20), anchor="n")
+# lbl_app_name.grid(row=0, column=2, sticky="nsw")
+
+# поля для ввода текста
+entry1 = tk.Entry(width=38, fg="#e3dfd1", highlightbackground="#0a3758", font=("Montserrat", 13))
+entry1.insert(tk.END, "/Users/stanislavmakov/Desktop/SortingMachine")
+entry1.grid(row=1, column=1, sticky="nsew")
+entry2 = tk.Entry(width=38, fg="#e3dfd1", highlightbackground="#0a3758", font=("Montserrat", 13))
+entry2.insert(tk.END, "/Users/stanislavmakov/Desktop/SortingMachine/Sorted")
+entry2.grid(row=3, column=1, sticky="nsew")
+
+# кнопка
+btn_sort = tk.Button(text="Сортировать документы", font=("Montserrat", 15),
+                     command=sort_btn_fn, width=20, height=3)
+btn_sort.grid(row=4, column=1, pady=30, sticky="nsew")
+
+window.mainloop()
