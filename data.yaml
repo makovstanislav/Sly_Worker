@@ -1,0 +1,155 @@
+---
+Type1:
+    name: Letter
+    uniques:
+        з повагою: 1
+        шановний: 1
+        просимо: 1
+        прошу: 1
+        kindly: 1
+        sincerely: 1
+        best regards: 1
+        best wishes: 1
+    unq_req: 1
+
+
+Type2:
+    name: Contract
+    uniques:
+        цей договір: 1
+        даний договір: 1
+        догов: 3
+        угод: 3
+        agreement: 3
+        contract: 3
+        сторон: 3
+        особі: 1
+        parties: 3
+    unq_req: 2
+    subtypes:
+        # по точности распознавания (от большего к меньшему)
+        sub17:
+            name: Amendment
+            uniques:
+                ця додаткова угода: 1
+                дана додаткова угода: 1
+                у наступній редакції: 2
+                в наступній редакції: 2
+                додаткова угода: 2
+                угода про розірвання: 2
+                сторони прийшли до згоди розірвати: 1
+                сторони прийшли до згоди припинити: 1
+                сторони погодили розірвати: 1
+                сторони погодили припинити: 1
+            unq_req: 1
+
+        sub1:
+            name: Rent
+            uniques:
+                орендар: 3
+                орендодавець: 3
+            unq_req: all
+
+        sub2:
+            name: Insurance
+            uniques:
+                страх: 10
+            unq_req: all
+
+        sub3:
+            name: Contractor
+            uniques:
+                підрядн: 5
+            unq_req: all
+
+        sub5:
+            name: Sales
+            uniques:
+                постачальн: 6
+            unq_req: all
+
+        sub6:
+            name: Agency
+            uniques:
+                агентськ: 3
+            unq_req: all
+
+        sub7:
+            name: Servitude
+            uniques:
+                сервітут: 4
+            unq_req: all
+
+        sub8:
+            name: Modernization
+            uniques:
+                модерніз: 3
+            unq_req: all
+
+        sub9:
+            name: Factoring
+            uniques:
+                фактор: 3
+            unq_req: all
+
+        sub10:
+            name: License
+            uniques:
+                ліценз: 10
+            unq_req: all
+
+        sub11:
+            name: Softdev
+            uniques:
+                розроб: 3
+                програм: 3
+            unq_req: all
+
+        sub12:
+            name: AdPlacement
+            uniques:
+                реклам: 2
+                розміщ: 3
+            unq_req: all
+
+        sub13:
+            name: Creative
+            uniques:
+                реклам: 2
+                розроб: 2
+                майн: 2
+            unq_req: all
+
+        sub14:
+            name: Channels
+            uniques:
+                канал: 3
+                терит: 3
+            unq_req: all
+
+        sub15:
+            name: Access
+            uniques:
+                доступ: 4
+                телекомунікац: 2
+                акт: 1
+            unq_req: all
+
+        sub16:
+            name: NDA
+            uniques:
+                конфіденц: 5
+                доступ: 2
+            unq_req: all
+
+        sub18:
+            name: Annex
+            uniques:
+                цей додаток: 1
+                даний додаток: 1
+            unq_req: 1
+
+
+
+
+
