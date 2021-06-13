@@ -1,6 +1,8 @@
 ---
-Type1:
-    name: Letter
+# Feel free to change a type/subtype name as well value of "uniques" and "unq_req"
+# Changes shall be made preserving the current indentation
+Letter:
+    # Please keep words "uniques", "subtypes" and "unq_req" unchanged throughout the file
     uniques:
         з повагою: 1
         шановний: 1
@@ -13,8 +15,8 @@ Type1:
     unq_req: 1
 
 
-Type2:
-    name: Contract
+Contract:
+
     uniques:
         цей договір: 1
         даний договір: 1
@@ -26,10 +28,11 @@ Type2:
         особі: 1
         parties: 3
     unq_req: 2
+
+    # It`s recommended to list out subtypes in the order of probability of a subtype recognition (from most to least)
     subtypes:
-        # по точности распознавания (от большего к меньшему)
-        sub17:
-            name: Amendment
+
+        Amendment:
             uniques:
                 ця додаткова угода: 1
                 дана додаткова угода: 1
@@ -43,107 +46,91 @@ Type2:
                 сторони погодили припинити: 1
             unq_req: 1
 
-        sub1:
-            name: Rent
+        Rent:
             uniques:
                 орендар: 3
                 орендодавець: 3
             unq_req: all
 
-        sub2:
-            name: Insurance
-            uniques:
-                страх: 10
-            unq_req: all
+        Insurance:
+                uniques:
+                    страх: 10
+                unq_req: all
 
-        sub3:
-            name: Contractor
+        Contractor:
             uniques:
                 підрядн: 5
             unq_req: all
 
-        sub5:
-            name: Sales
+        Sales:
             uniques:
                 постачальн: 6
             unq_req: all
 
-        sub6:
-            name: Agency
+        Agency:
             uniques:
                 агентськ: 3
             unq_req: all
 
-        sub7:
-            name: Servitude
+        Servitude:
             uniques:
                 сервітут: 4
             unq_req: all
 
-        sub8:
-            name: Modernization
+        Modernization:
             uniques:
                 модерніз: 3
             unq_req: all
 
-        sub9:
-            name: Factoring
+        Factoring:
             uniques:
                 фактор: 3
             unq_req: all
 
-        sub10:
-            name: License
+        License:
             uniques:
                 ліценз: 10
             unq_req: all
 
-        sub11:
-            name: Softdev
+        Softdev:
             uniques:
                 розроб: 3
                 програм: 3
             unq_req: all
 
-        sub12:
-            name: AdPlacement
+        AdPlacement:
             uniques:
                 реклам: 2
                 розміщ: 3
             unq_req: all
 
-        sub13:
-            name: Creative
+        Creative:
             uniques:
                 реклам: 2
                 розроб: 2
                 майн: 2
             unq_req: all
 
-        sub14:
-            name: Channels
+        Channels:
             uniques:
                 канал: 3
                 терит: 3
             unq_req: all
 
-        sub15:
-            name: Access
+        Access:
             uniques:
                 доступ: 4
                 телекомунікац: 2
                 акт: 1
             unq_req: all
 
-        sub16:
-            name: NDA
+        NDA:
             uniques:
                 конфіденц: 5
                 доступ: 2
             unq_req: all
 
-        sub18:
-            name: Annex
+        Annex:
             uniques:
                 цей додаток: 1
                 даний додаток: 1
