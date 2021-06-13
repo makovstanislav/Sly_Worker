@@ -1,14 +1,7 @@
-import yaml
-
 class Doc:
 
     def __init__(self, text):
         self.text = text
-
-    def read_yaml(self):
-        with open('data.yaml') as f:
-            data = yaml.safe_load(f)
-            return data
 
     def count_check(self, dictionary, min_validations=None):
         text_low = self.text.lower()
@@ -24,29 +17,29 @@ class Doc:
 
     # возвращает подтип документа
 
-    # !!! Возможно декоратор заюзать для скорости
-    # !!! возможно дату стоит запустить в конструкторе
     def subject(self):
         subject_is = "Other"
-        data = self.read_yaml()
-        for type in data:
-            type_uniques = data[type]["uniques"]
-            type_unq_req = data[type]["unq_req"]
-            # что-то сделать с not
-            # and not self.count_check(self.__letter_must_1, 1)
-            if self.count_check(uniques, unq_req):
-                if "subtypes" in data[type]:
-                    subtypes = data[type]["subtypes"]
-                    for sub in subtypes:
-                        subtype_uniques = subtypes[sub]["uniques"]
-                        subtype_unq_req = subtypes[sub]["unq_req"]
-                        if subtype_unq_req == "all":
-                            subtype_unq_req = len(subtype_uniques)
-                        if self.count_check(subtype_uniques, subtype_unq_req):
-                            return data[type]["name"] + "/" + subtypes[sub]["name"]
-                    return data[type]["name"] + "/" + "Other"
+        from main import data
+
+        # определяет принадлежит ли документ к конкретной категории. параметр - значения ключа в виде словаря
+        def validate_category(category_properties):
+            uniques = category_properties["uniques"]
+            unq_req = category_properties["unq_req"]
+            if unq_req == "all":
+                unq_req = len(uniques)
+            return self.count_check(uniques, unq_req)
+
+        for type, type_properties in data.items():
+            if validate_category(type_properties):
+                if "subtypes" in type_properties:
+                    for subtype, subtype_properties in type_properties["subtypes"].items():
+                        if validate_category(subtype_properties):
+                            return type + "/" + subtype
+                    return type + "/" + "Other"
                 else:
-                    return data[type]["name"]
+                    return type
             else:
                 continue
         return subject_is
+
+
