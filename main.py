@@ -2,7 +2,6 @@ import os
 import shutil
 import textract
 import subprocess
-from detext import Doc
 import tkinter as tk
 import yaml
 
@@ -13,6 +12,7 @@ def read_yaml():
         dataset = yaml.safe_load(f)
         return dataset
 
+data = read_yaml()
 
 # возращает текст файла MS Office
 def reader(file_path):
@@ -32,25 +32,25 @@ def make_folder(source_dir, name):
 # сортирует файлы MS Office по папкам по критерию "Предмет"
 def sort_docs(source_dir, output_dir):
     # создание папок
-    dataset = read_yaml()
-    for type in dataset:
-        type_name = dataset[type]["name"]
-        make_folder(output_dir, type_name)
-        if "subtypes" in dataset[type]:
-            for subtype in dataset[type]["subtypes"]:
-                subtype_name = type_name + "/" + dataset[type]["subtypes"][subtype]["name"]
+    for type, value in data.items():
+        make_folder(output_dir, type)
+        if "subtypes" in value:
+            for subtype in value["subtypes"]:
+                subtype_name = type + "/" + subtype
                 make_folder(output_dir, subtype_name)
-            make_folder(output_dir + "/" + type_name, "Other")
+            make_folder(output_dir + "/" + type, "Other")
     make_folder(output_dir, "Other")
 
     # буфер для конвертированных файлов
     tempStorage = make_folder(output_dir, "tempStorage")
     # для файлов с неподдерживаемым конвертером расширением
     FailedToRead = make_folder(output_dir, "FailedToRead")
-
+    # счетчик ошибок
+    counter = 1
 
     # определяет предмет и сортирует в соотв папки
     def sort(content, item_name):
+        from detext import Doc
         document = Doc(content)
         subject_name = document.subject()
         shutil.move(item_path, os.path.join(output_dir + "/" + subject_name, item_name))
@@ -62,7 +62,6 @@ def sort_docs(source_dir, output_dir):
         if os.path.isdir(item_path):
             continue
 
-        # !!! возможно стоить добавить расширения
         # .doc/.docm файл конвертируется и перемещается в отдельную временную папку
         if item.endswith(".doc"):
             subprocess.call(
@@ -78,13 +77,16 @@ def sort_docs(source_dir, output_dir):
             os.remove(item_path)
             continue
 
+
         # чтение документа
         try:
             content = reader(item_path)
         # ошибка --> в отдельную папку
         except Exception as e:
-            print("Вот этот файл проблемный {}. Ошибка {}.".format(item_path, e))
+            corrupted_file = "Этот файл не удалось сконвертировать:\n {}. \n".format(item_path)
+            text.insert(tk.END, str(counter) + ". " + corrupted_file + "\n")
             shutil.move(item_path, os.path.join(FailedToRead, item))
+            counter += 1
             continue
 
         sort(content, item)
@@ -102,20 +104,18 @@ def sort_docs(source_dir, output_dir):
     if os.path.isdir(tempStorage):
         os.rmdir(tempStorage)
 
-
 # GUI
 window = tk.Tk()
 window.title('SlyWorker')
 window.attributes("-alpha", 0.97)
 window.configure(bg='#043353')
-window.geometry("520x430")
+window.geometry("520x830")
 # ширина столбцов
 window.columnconfigure([0, 2], weight=1, minsize=45)
 
-
+# для кнопки "Сортировать"
 def sort_btn_fn():
     sort_docs(entry1.get(), entry2.get())
-
 
 # надписи
 lbl_source = tk.Label(text="""Адрес папки с документами для сортировки""", height=3, width=38,
@@ -140,4 +140,10 @@ btn_sort = tk.Button(text="Сортировать документы", font=("Mo
                      command=sort_btn_fn, width=20, height=3)
 btn_sort.grid(row=4, column=1, pady=30, sticky="nsew")
 
-window.mainloop()
+# текст с названиями проблемных файлов
+text = tk.Text(window, width=20, height=39, font=("Montserrat", 10), state = "disabled")
+text.grid(row=5, column=1, pady=1, sticky="nsew")
+
+
+if __name__ == "__main__":
+    window.mainloop()
