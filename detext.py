@@ -3,6 +3,7 @@ class Doc:
     def __init__(self, text):
         self.text = text
 
+    # returns True if text contains minimum number of unique words occurrences required by the dictionary
     def count_check(self, dictionary, min_validations=None):
         text_low = self.text.lower()
         validations = 0
@@ -15,25 +16,27 @@ class Doc:
         else:
             return validations == len(dictionary)
 
-    # возвращает подтип документа
-
+    # detects a type of the document. If the document belongs to a subtype the fn will return "type/subtype"
     def subject(self):
         subject_is = "Other"
         from main import data
 
-        # определяет принадлежит ли документ к конкретной категории. параметр - значения ключа в виде словаря
-        def validate_category(category_properties):
-            uniques = category_properties["uniques"]
-            unq_req = category_properties["unq_req"]
+        # returns True if the document belongs to specific category (type or subtype).
+        # Parameter: value (in form of a dict) of a key
+        def validate_category(category_requisites):
+            uniques = category_requisites["uniques"]
+            unq_req = category_requisites["unq_req"]
             if unq_req == "all":
                 unq_req = len(uniques)
             return self.count_check(uniques, unq_req)
 
-        for type, type_properties in data.items():
-            if validate_category(type_properties):
-                if "subtypes" in type_properties:
-                    for subtype, subtype_properties in type_properties["subtypes"].items():
-                        if validate_category(subtype_properties):
+        # iteration through types and subtypes in the data.yaml to check if the document matches any
+        for type, type_requisites in data.items():
+            if validate_category(type_requisites):
+                # a type may not contain subtypes
+                if "subtypes" in type_requisites:
+                    for subtype, subtype_requisites in type_requisites["subtypes"].items():
+                        if validate_category(subtype_requisites):
                             return type + "/" + subtype
                     return type + "/" + "Other"
                 else:
