@@ -1,9 +1,12 @@
 # **SLY WORKER**
 
-A desktop application that arranges a bunch of your documents into folders.
+A desktop application that arranges (sorts out) a bunch of your documents into folders.
 Operates on MacOS.
 
 <img width="823" alt="Screenshot 2021-06-30 at 23 50 01" src="https://user-images.githubusercontent.com/85253471/124029669-0e505b80-d9fe-11eb-9441-0437f530986f.png">
+
+<img width="1247" alt="Screenshot 2021-07-01 at 00 10 59" src="https://user-images.githubusercontent.com/85253471/124032336-207fc900-da01-11eb-9b5e-4e984e593bc7.png">
+<img width="469" alt="Screenshot 2021-07-01 at 00 12 37" src="https://user-images.githubusercontent.com/85253471/124032347-237ab980-da01-11eb-8a00-8255cfb1b92a.png">
 
 
 
@@ -24,7 +27,7 @@ Operates on MacOS.
   
   3. Download "data.yaml" by the link:
   
-  https://www.libreoffice.org/download/download/
+  https://github.com/MSt-gh/git_practice/blob/7f342ddd15d8c496f8debae3525d7019f2e36b86/data.yaml
   
   4. Put downloaded files "SlyWorker.app" and "data.yaml" into the same folder.
      
