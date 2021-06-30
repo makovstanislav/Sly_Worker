@@ -1,10 +1,14 @@
-**SLY WORKER**
+# **SLY WORKER**
 
-DESCRIPTION: an application that sorts out a bunch of your documents into folders by the categories.
+A desktop application that arranges a bunch of your documents into folders.
+Operates on MacOS.
 
-Table of contents:
 
-**INSTALLATION:**
+
+
+## **INSTALLATION:**
+
+
 
   1. Install LibreOffice
   
@@ -23,18 +27,21 @@ Table of contents:
   
   4. Put downloaded files "SlyWorker.app" and "data.yaml" into the same folder.
      
-**USAGE:**
+## **USAGE:**
   
-  1. Customize YAML file.
+####  1. Customize YAML file.
      
-     Open "data.yaml" file via any text editor you are comfortable with. 
+ <img width="964" alt="Screenshot 2021-06-30 at 23 16 01" src="https://user-images.githubusercontent.com/85253471/124026170-0393c780-d9fa-11eb-9ed8-083edced2d6b.png">
+     
+     Open "data.yaml" file via the text editor you are comfortable with. 
   
      This file stipulates sorting criteria which the app governs by. You should specify the categories and subcategories 
      (if any) into which you would like to pigeonhole your documents. As soon as you start sorting, the program 
      will automatically create folders and subfolders by the names of categories and subcategories respectively. 
      
-     **Feel free to customize it as you like!**
-     
+     **Feel free to establish your own criteria by amending the file!**
+    
+
      There are the following fields:
      
      1. Name of a type/subtype. That means the name of the category/subcategory. 
@@ -44,23 +51,30 @@ Table of contents:
         but at the same time it may not contain all of the unique keywords that you specified. So, how much "uniques" shall be matched
         to recognize the document as belonging to the certain category?
      
-     You can add, delete, rename fields with preservation of the current layout and indentation. The number of fields "type"/"subtype"/"uniques"
-     is not limited. The maximum number of the field "unq_req" for each type/subtype is 1.
+     You can add, delete, rename contents with preservation of the current layout and indentation.
      
      Save the file after customization.
         
-  2. Sort
+
+####  2. Sort your documents.
   
-     Insert a bunch of your documents that you are going to sort into a separate folder. Launch "SlyWorker.app". Select the folder
-     containing such documents (source folder). Select the folder which will contain folders with allocated documents (output folder).
+ <img width="1257" alt="Screenshot 2021-06-30 at 23 25 47" src="https://user-images.githubusercontent.com/85253471/124027273-57eb7700-d9fb-11eb-96e6-8cb0e1b96b9e.png">
      
+
+     Insert a bunch of your documents that you are going to sort into a separate folder. 
+     Launch "SlyWorker.app". Select the folder containing such documents (source folder). Select the folder which will contain folders 
+     with allocated documents (output folder).
      Click "Sort" button!
      
      The process gonna take a while. The app will not respond during that time. That is OK. The app is at beta stage. 
+     
+ <img width="827" alt="Screenshot 2021-06-30 at 23 33 30" src="https://user-images.githubusercontent.com/85253471/124027577-b6b0f080-d9fb-11eb-8a5b-6be2752f7a18.png">
+     
 
-  3. Put the screws on!
+####  3. Put the screws on!
 
-     Look at the statistics of the sorting. Are you satisfied with the result? If you feel that it could be better, reconfigure "data.yaml" file.
+     Look at the statistics of the sorting. Are you satisfied with the result? If you feel that it could be better, then reconfigure "data.yaml" file.
   
-  
-  Thank you for being interested in SlyWorker!
+ <img width="823" alt="Screenshot 2021-06-30 at 23 50 01" src="https://user-images.githubusercontent.com/85253471/124029669-0e505b80-d9fe-11eb-9441-0437f530986f.png">
+
+  Thank you for being interested in SlyWorker! :mage:
