@@ -3,6 +3,7 @@
 A desktop application that arranges a bunch of your documents into folders.
 Operates on MacOS.
 
+<img width="823" alt="Screenshot 2021-06-30 at 23 50 01" src="https://user-images.githubusercontent.com/85253471/124029669-0e505b80-d9fe-11eb-9441-0437f530986f.png">
 
 
 
