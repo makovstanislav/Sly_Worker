@@ -1,6 +1,6 @@
 **SLY WORKER**
 
-DESCRIPTION: an application that allocates a bunch of your documents into folders.
+DESCRIPTION: an application that sorts out a bunch of your documents into folders by the categories.
 
 Table of contents:
 
